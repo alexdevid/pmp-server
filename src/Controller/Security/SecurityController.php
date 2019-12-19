@@ -20,7 +20,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/login", name="security.login")
      *
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
@@ -34,5 +34,14 @@ class SecurityController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error
         ]);
+    }
+
+    /**
+     * @Route("/logout", name="security.logout", methods={"GET"})
+     */
+    public function logout()
+    {
+        // controller can be blank: it will never be executed!
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
 }

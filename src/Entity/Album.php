@@ -12,14 +12,13 @@ namespace PMP\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="PMP\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="PMP\Repository\AlbumRepository")
  *
  * @author Alexander Tsukanov (http://alexdevid.ru)
  */
-class User implements UserInterface
+class Album
 {
     /**
      * @ORM\Id()
@@ -31,31 +30,44 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=255)
      *
      * @var string
      */
-    private $email;
+    private $title;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="integer", nullable=true)
      *
-     * @var array
+     * @var integer
      */
-    private $roles = [];
+    private $year;
 
     /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=255)
      *
      * @var string
      */
-    private $password;
+    private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity="PMP\Entity\Audio", mappedBy="user")
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
-     * @var Audio[]
+     * @var string
+     */
+    private $publisher;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PMP\Entity\Artist", inversedBy="albums")
+     *
+     * @var Artist
+     */
+    private $artist;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PMP\Entity\Audio", mappedBy="album")
+     *
+     * @var Album
      */
     private $audio;
 
@@ -75,87 +87,96 @@ class User implements UserInterface
     /**
      * @return string|null
      */
-    public function getEmail(): ?string
+    public function getTitle(): ?string
     {
-        return $this->email;
+        return $this->title;
     }
 
     /**
-     * @param string $email
+     * @param string $title
      * @return $this
      */
-    public function setEmail(string $email): self
+    public function setTitle(string $title): self
     {
-        $this->email = $email;
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * @see UserInterface
+     * @return int|null
      */
-    public function getUsername(): string
+    public function getYear(): ?int
     {
-        return (string) $this->email;
+        return $this->year;
     }
 
     /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    /**
-     * @param array $roles
+     * @param int|null $year
      * @return $this
      */
-    public function setRoles(array $roles): self
+    public function setYear(?int $year): self
     {
-        $this->roles = $roles;
+        $this->year = $year;
 
         return $this;
     }
 
     /**
-     * @see UserInterface
+     * @return string|null
      */
-    public function getPassword(): string
+    public function getImage(): ?string
     {
-        return (string) $this->password;
+        return $this->image;
     }
 
     /**
-     * @param string $password
+     * @param string $image
      * @return $this
      */
-    public function setPassword(string $password): self
+    public function setImage(string $image): self
     {
-        $this->password = $password;
+        $this->image = $image;
 
         return $this;
     }
 
     /**
-     * @see UserInterface
+     * @return string|null
      */
-    public function getSalt()
+    public function getPublisher(): ?string
     {
-        // not needed when using the "bcrypt" algorithm in security.yaml
+        return $this->publisher;
     }
 
     /**
-     * @see UserInterface
+     * @param string|null $publisher
+     * @return $this
      */
-    public function eraseCredentials()
+    public function setPublisher(?string $publisher): self
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->publisher = $publisher;
+
+        return $this;
+    }
+
+    /**
+     * @return Artist|null
+     */
+    public function getArtist(): ?Artist
+    {
+        return $this->artist;
+    }
+
+    /**
+     * @param Artist|null $artist
+     * @return $this
+     */
+    public function setArtist(?Artist $artist): self
+    {
+        $this->artist = $artist;
+
+        return $this;
     }
 
     /**
@@ -174,7 +195,7 @@ class User implements UserInterface
     {
         if (!$this->audio->contains($audio)) {
             $this->audio[] = $audio;
-            $audio->setUser($this);
+            $audio->setAlbum($this);
         }
 
         return $this;
@@ -189,8 +210,8 @@ class User implements UserInterface
         if ($this->audio->contains($audio)) {
             $this->audio->removeElement($audio);
             // set the owning side to null (unless already changed)
-            if ($audio->getUser() === $this) {
-                $audio->setUser(null);
+            if ($audio->getAlbum() === $this) {
+                $audio->setAlbum(null);
             }
         }
 

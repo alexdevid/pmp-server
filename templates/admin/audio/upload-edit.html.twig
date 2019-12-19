@@ -1,0 +1,9 @@
+{% extends 'admin/audio/layout.html.twig' %}
+
+{% block page_content %}
+    <ul>
+        {% for audio in audios %}
+            <li>{{ audio.title }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

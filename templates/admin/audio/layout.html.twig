@@ -1,0 +1,15 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="menu">
+            <a href="{{ path('admin.audio.index') }}" class="menu-item {% if app.request.attributes.get('_route') == 'admin.audio.index' %}menu-item-active{% endif %}">All audio</a>
+            <a href="{{ path('admin.audio.upload') }}" class="menu-item {% if app.request.attributes.get('_route') == 'admin.audio.upload' %}menu-item-active{% endif %}">Upload audio</a>
+            <a href="#" class="menu-item menu-item-disabled">Upload torrent</a>
+        </div>
+    </div>
+    <div class="container" id="app">
+        {% block page_content %}
+        {% endblock %}
+    </div>
+{% endblock %}

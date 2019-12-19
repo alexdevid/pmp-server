@@ -3,10 +3,38 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap&subset=cyrillic"
+                  rel="stylesheet">
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div class="column side-nav">
+            <div class="menu menu-vertical">
+                <a href="{{ path('admin.default.index') }}"
+                   class="menu-item {% if app.request.attributes.get('_route') == 'admin.default.index' %}menu-item-active{% endif %}">Overview</a>
+                <a href="{{ path('admin.audio.index') }}"
+                   class="menu-item {% if app.request.attributes.get('_route') starts with 'admin.audio.' %}menu-item-active{% endif %}">Audio</a>
+                <a href="#" class="menu-item">Menu item 2</a>
+                <a href="#" class="menu-item">Menu item 3</a>
+            </div>
+        </div>
+        <div class="column">
+            <div class="top-nav">
+                <div class="menu">
+                    <a href="#" class="menu-item">Menu item 1</a>
+                    <a href="#" class="menu-item">Menu item 2</a>
+                    <a href="{{ path('security.logout') }}" class="menu-item">Logout</a>
+                </div>
+            </div>
+            <div class="page-content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
     </body>
 </html>
