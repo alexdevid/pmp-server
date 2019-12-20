@@ -7,7 +7,18 @@
         "/assets/app.js"
       ],
       "css": [
+        "/assets/vendors~app.css",
         "/assets/app.css"
+      ]
+    },
+    "audio": {
+      "js": [
+        "/assets/runtime.js",
+        "/assets/vendors~audio.js",
+        "/assets/audio.js"
+      ],
+      "css": [
+        "/assets/audio.css"
       ]
     }
   }

@@ -43,13 +43,16 @@
 
 <style lang="less" scoped>
     .upload-form {
-        padding: 30px 20px;
+        padding: 30px 0;
+
         p {
             margin: 5px;
         }
+
         input {
             display: none;
         }
+
         .file-select {
             display: inline-block;
             margin-top: 30px;

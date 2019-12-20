@@ -19,11 +19,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/", name="default.index")
+     * @Route("/admin", name="admin.default.index")
      *
      * @return Response
      */
     public function indexAction()
+    {
+        return $this->render('default/index.html.twig');
+    }
+
+    /**
+     * @Route("/", name="default.index")
+     *
+     * @return Response
+     */
+    public function helloAction()
     {
         return $this->render('default/index.html.twig');
     }

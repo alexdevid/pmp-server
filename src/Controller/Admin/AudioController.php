@@ -35,7 +35,7 @@ class AudioController extends AbstractController
     {
         $audios = $this->getDoctrine()->getRepository(Audio::class)->findAll();
 
-        return $this->render('admin/audio/index.html.twig', [
+        return $this->render('audio/index.html.twig', [
             'audios' => $audios
         ]);
     }
@@ -64,13 +64,13 @@ class AudioController extends AbstractController
 
             }
 
-            return $this->render('admin/audio/upload-edit.html.twig', [
+            return $this->render('audio/upload-edit.html.twig', [
                 'audios' => $audios
             ]);
 
 //            $this->getDoctrine()->getManager()->flush();
         }
 
-        return $this->render('admin/audio/upload.html.twig', []);
+        return $this->render('audio/upload.html.twig', []);
     }
 }

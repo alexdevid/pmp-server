@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    {% block page_content %}
+    {% endblock %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('audio') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('audio') }}
+{% endblock %}

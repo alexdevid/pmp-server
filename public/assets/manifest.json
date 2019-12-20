@@ -1,6 +1,10 @@
 {
   "assets/app.css": "/assets/app.css",
   "assets/app.js": "/assets/app.js",
+  "assets/audio.css": "/assets/audio.css",
+  "assets/audio.js": "/assets/audio.js",
   "assets/runtime.js": "/assets/runtime.js",
-  "assets/vendors~app.js": "/assets/vendors~app.js"
+  "assets/vendors~app.css": "/assets/vendors~app.css",
+  "assets/vendors~app.js": "/assets/vendors~app.js",
+  "assets/vendors~audio.js": "/assets/vendors~audio.js"
 }

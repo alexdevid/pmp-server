@@ -1,0 +1,36 @@
+{% extends 'audio/layout.html.twig' %}
+
+{% block title %}Audio{% endblock %}
+
+{% block page_content %}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Audio List</h6>
+        </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>artist</th>
+                        <th>album</th>
+                        <th>title</th>
+                        <th>genre</th>
+                        <th>year</th>
+                        <th>duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for audio in audios %}
+                        <tr>
+                            <td>{{ audio.artist.title }}</td>
+                            <td>{{ audio.album.title }}</td>
+                            <td>{{ audio.title }}</td>
+                            <td>{{ audio.genre }}</td>
+                            <td>{{ audio.album.year }}</td>
+                            <td>{{ audio.duration }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    </div>
+
+{% endblock %}
