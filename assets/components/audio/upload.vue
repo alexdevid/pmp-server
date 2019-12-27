@@ -16,11 +16,11 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-1">#</div>
-                        <div class="col-sm-3">Filename</div>
-                        <div class="col-sm-3">Title</div>
+                        <div class="col-sm-4">Filename</div>
+                        <div class="col-sm-2">Title</div>
                         <div class="col-sm-2">Artist</div>
                         <div class="col-sm-2">Album</div>
-                        <div class="col-sm-1">Album</div>
+                        <div class="col-sm-1"></div>
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
@@ -30,10 +30,10 @@
                                 <i class="fa fa-check" v-if="file.audio"></i>
                                 <i class="fas fa-circle-notch fa-spin" v-if="!file.audio"></i>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 {{ file.file.name }}
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="text"
                                        v-if="file.audio"
                                        v-model="file.audio.title"
@@ -73,7 +73,7 @@
                 </ul>
                 <div class="card-footer text-right">
                     <button :disabled="!allFilesUploaded" class="btn btn-primary btn-icon-split btn-sm"
-                            @click="showForm = true">
+                            @click="reset()">
                         <span class="icon text-white-50"><i class="fas fa-upload"></i></span>
                         <span class="text">Upload More</span>
                     </button>
@@ -95,7 +95,6 @@
     export default {
         data() {
             return {
-                error: null,
                 showForm: true,
                 maxFiles: MAX_UPLOADED_FILES,
 
@@ -107,6 +106,12 @@
         mounted() {
         },
         methods: {
+            reset() {
+                this.showForm = true;
+                this.files = [];
+                this.allFilesUploaded = false;
+                this.modelsChanged = false
+            },
             fileChanged(file) {
                 file.changed = true;
                 this.modelsChanged = true;

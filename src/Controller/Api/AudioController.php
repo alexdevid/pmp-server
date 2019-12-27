@@ -45,15 +45,9 @@ class AudioController extends AbstractController
             $artists->add($audio->getArtist());
         }
 
-        $albums = new ArrayCollection($this->getDoctrine()->getRepository(Album::class)->findAll());
-        if (!$albums->contains($audio->getAlbum())) {
-            $albums->add($audio->getAlbum());
-        }
-
         $data = [
             'audio' => $audio,
-            'artists' => $artists,
-            'albums' => $albums
+            'artists' => $artists
         ];
 
         return new Response($serializer->serialize($data, JsonEncoder::FORMAT, [
