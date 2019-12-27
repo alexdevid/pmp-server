@@ -116,6 +116,8 @@ class AudioService
                 ->setTitle($artistTitle)
                 ->setGenre([$genre]); //TODO
         }
+
+        return $artist;
     }
 
     /**
