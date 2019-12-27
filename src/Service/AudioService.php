@@ -93,22 +93,44 @@ class AudioService
             ->setSize($uploadedFile->getSize())
             ->setSrc($uploadedFile->getPathname()); //TODO take from storage !?
 
-        $artistTitle = $id3Info->getArtist() ?: self::UNKNOWN_ARTIST;
-        $albumTitle = $id3Info->getAlbum() ?: self::UNKNOWN_ALBUM;
+        $artist = $this->getArtist($id3Info->getArtist(), $id3Info->getGenre());
+        $audio
+            ->setArtist($artist)
+            ->setAlbum($this->getAlbum($artist, $id3Info->getAlbum(), $id3Info->getYear()));
 
+        return $audio;
+    }
+
+    /**
+     * @param string|null $artistTitle
+     * @param string|null $genre
+     * @return Artist
+     */
+    private function getArtist(string $artistTitle = null, string $genre = null): Artist
+    {
+        $artistTitle = $artistTitle ?: self::UNKNOWN_ARTIST;
         $artist = $this->artistRepository->findOneBy(['title' => $artistTitle]);
         if (!$artist) {
             $artist = new Artist();
             $artist
                 ->setTitle($artistTitle)
-                ->setGenre([$id3Info->getGenre()]); //TODO
+                ->setGenre([$genre]); //TODO
         }
+    }
 
+    /**
+     * @param Artist $artist
+     * @param string|null $albumTitle
+     * @param int|null $year
+     * @return Album
+     */
+    private function getAlbum(Artist $artist, string $albumTitle = null, int $year = null): Album
+    {
+        $albumTitle = $albumTitle ?: self::UNKNOWN_ALBUM;
         $album = $this->albumRepository->findOneBy(['title' => $albumTitle]);
-        if ($id3Info->getYear() && $album && !$album->getYear()) {
-            $album->setYear($id3Info->getYear());
+        if ($year && $album && !$album->getYear()) {
+            $album->setYear($year);
         }
-
         if (!$album) {
             $album = new Album();
             $album
@@ -118,10 +140,6 @@ class AudioService
             $album->setImage(self::UNKNOWN_IMAGE_PATH);
         }
 
-        $audio
-            ->setArtist($artist)
-            ->setAlbum($album);
-
-        return $audio;
+        return $album;
     }
 }
