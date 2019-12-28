@@ -51,11 +51,15 @@
                                 </select>
                             </div>
                             <div class="col-sm-2">
-                                <input type="text"
-                                       v-if="file.audio"
-                                       v-model="file.audio.album.title"
-                                       @input="fileChanged(file)"
-                                       class="form-control form-control-sm">
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-control-sm"
+                                           v-if="file.audio"
+                                           v-model="file.audio.album.title"
+                                           @input="fileChanged(file)">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" @click="showModal = true;">Choose</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-sm-1" v-if="file.audio">
                                 <button class="btn btn-danger btn-sm" :disabled="!file.audio">
@@ -89,6 +93,7 @@
 
 <script>
     import axios from 'axios';
+    import AlbumSelect from '../widgets/album-select';
 
     const MAX_UPLOADED_FILES = 10;
 
@@ -96,6 +101,7 @@
         data() {
             return {
                 showForm: true,
+                showModal: false,
                 maxFiles: MAX_UPLOADED_FILES,
 
                 files: [],
@@ -104,6 +110,9 @@
             };
         },
         mounted() {
+        },
+        components: {
+            AlbumSelect
         },
         methods: {
             reset() {
@@ -150,7 +159,8 @@
                         loaded: 0,
                         audio: null,
                         changed: false,
-                        artists: []
+                        artists: [],
+                        albums: []
                     });
 
                     axios.post('/index.php/api/audio/upload', formData, {
@@ -163,6 +173,7 @@
                     }).then(data => {
                         this.files[i]['audio'] = data.data.audio;
                         this.files[i]['artists'] = data.data.artists;
+                        this.files[i]['albums'] = data.data.albums;
                         this.allFilesUploaded = this.uploadComplete();
 
                     }).catch(error => console.warn('FAILURE!!', error));
