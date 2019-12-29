@@ -15,6 +15,7 @@ use PMP\Entity\Album;
 use PMP\Entity\Artist;
 use PMP\Entity\Audio;
 use PMP\Entity\User;
+use PMP\Exception\AudioExistsException;
 use PMP\Repository\AlbumRepository;
 use PMP\Repository\ArtistRepository;
 use PMP\Repository\AudioRepository;
@@ -74,13 +75,19 @@ class AudioService
 
     /**
      * @param UploadedFile $uploadedFile
-     *
+     * @throws AudioExistsException
      * @return Audio
      */
     public function createEntityFromUploadedFile(UploadedFile $uploadedFile): Audio
     {
-        VarDumper::dump(md5($uploadedFile)); die();
-        $audio = new Audio();
+        $md5 = md5($uploadedFile);
+        $audio = $this->audioRepository->findOneBy(['hash' => $md5]);
+        if ($audio) {
+            throw new AudioExistsException();
+        } else {
+            $audio = new Audio();
+        }
+
         //remove extension
         $title = preg_replace('/\\.[^.\\s]{3,4}$/', '', $uploadedFile->getClientOriginalName());
         $id3Info = $this->audioParser->getID3Info($uploadedFile->getPathname());
