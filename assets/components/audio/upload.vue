@@ -57,7 +57,7 @@
                                            v-model="file.audio.album.title"
                                            @input="fileChanged(file)">
                                     <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" @click="showModal = true;">Choose</button>
+                                        <button class="btn btn-sm btn-outline-secondary" @click="showModal = true;">Choose</button>
                                     </div>
                                 </div>
                             </div>

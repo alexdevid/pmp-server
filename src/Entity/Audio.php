@@ -99,6 +99,13 @@ class Audio
     private $user;
 
     /**
+     * @ORM\Column(type="text")
+     *
+     * @var string
+     */
+    private $hash;
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -293,6 +300,24 @@ class Audio
     {
         $this->user = $user;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash(): string
+    {
+        return $this->hash;
+    }
+
+    /**
+     * @param string $hash
+     * @return Audio
+     */
+    public function setHash(string $hash): Audio
+    {
+        $this->hash = $hash;
         return $this;
     }
 }

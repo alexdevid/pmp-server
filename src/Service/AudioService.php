@@ -21,6 +21,7 @@ use PMP\Repository\AudioRepository;
 use PMP\Service\Parser\AudioParser;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @author Alexander Tsukanov <alexander.tsukanov@opensoftdev.com>
@@ -78,6 +79,7 @@ class AudioService
      */
     public function createEntityFromUploadedFile(UploadedFile $uploadedFile): Audio
     {
+        VarDumper::dump(md5($uploadedFile)); die();
         $audio = new Audio();
         //remove extension
         $title = preg_replace('/\\.[^.\\s]{3,4}$/', '', $uploadedFile->getClientOriginalName());
